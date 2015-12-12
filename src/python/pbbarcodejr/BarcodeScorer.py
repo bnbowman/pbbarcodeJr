@@ -71,9 +71,12 @@ class BarcodeScorer(object):
         # Next we build the barcode scoring tool, using the forward sequence
         #   of the forward barcodes and the reverse-complement of the reverse
         #   barcodes
-        self.barcodeSeqs = [bc.sequence.upper() if (i%2)==0 else
-                            self._rc(bc.sequence.upper())
-                            for i, bc in enumerate(self.barcodeFasta)]
+        if scoreMode == 'paired':
+            self.barcodeSeqs = [bc.sequence.upper() if (i%2)==0 else
+                                self._rc(bc.sequence.upper())
+                                for i, bc in enumerate(self.barcodeFasta)]
+        else:
+            self.barcodeSeqs = [bc.sequence.upper() for bc in self.barcodeFasta]
         self.barcodeScorer = self.aligner.makeScorer(self.barcodeSeqs)
 
         logging.debug(("Constructed BarcodeScorer with scoreMode: %s," + \

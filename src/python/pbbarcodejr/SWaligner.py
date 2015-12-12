@@ -41,6 +41,10 @@ class SWaligner(object):
     def score(self, tSeq, qSeq):
         return self._dll.compute_align_score(self.dpMat, tSeq, qSeq)
 
+    def printMatrix(self, tSeq, qSeq):
+        self._dll.print_dp_mat(self.dpMat, tSeq, qSeq)
+        return
+
     def makeScorer(self, targets):
         ScoreType = c_int * len(targets)
         scores = ScoreType()
